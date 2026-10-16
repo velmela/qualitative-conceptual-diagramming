@@ -212,6 +212,43 @@ checked, and the size and SHA-256 of `index.html` after the change.
   `bd39e29e5d211310ddda8a1e3b360ae8f711d27e3777025a9affd08f7d540cc4`.
 - **Enforced by:** page layout only. No effect on prompts to Claude, the diagrams or exports.
 
+### R8. Thea says when a word on the figure is Drew's, not the researcher's (TD-06)
+
+- **Rule:** Thea reads Drew's actions, not only his message, and before criticising
+  anything on the figure checks who introduced it. A word that first appears in Drew's
+  actions and nowhere in what the researcher wrote is Drew's choice: she says so ("Drew
+  labelled that arrow…"), makes her case against it, and suggests the researcher ask Drew
+  for a better one. She and Drew may disagree. Drew is unchanged. (R7 is in the TD-14 pull
+  request.)
+- **Why:** TD-06. A tester reported that Drew labelled an arrow "affects" and Thea then
+  criticised the label as if the tester had chosen it. The authors decided: tell Thea to
+  call out Drew if Drew made the word; it is fine that they disagree. Cause: Thea's
+  instructions told her to read the "message" field of Drew's turns "and ignore the rest",
+  and the rest is where his labels are.
+- **The change:** the last sentence of the "About Drew" section of `THEA_SYSTEM` now says
+  the actions show what Drew drew and the words he chose, and a new paragraph gives the
+  rule above. No code change.
+- **Test (Oct 15, live, two private publishes declaring `sample`; control = current prompt,
+  draft = this change).** Each run: intake with outcome "Team learning after project
+  failures" and factors leader openness and psychological safety; "Drew draws" with no
+  instruction; then "What do you think of the figure?" Run 1 also gave the relationship
+  "Leader openness and psychological safety both shape whether teams learn after a
+  failure"; run 2 left it blank so Drew had to choose his own words.
+
+  | Run | Drew's labels | Control (current prompt) | Draft |
+  | --- | --- | --- | --- |
+  | 1: researcher's word | "shapes" (from the intake) | Criticised "shapes" without saying whose it was (correct by default, since it was the researcher's) | "'Shapes' is your word from the intake… and Drew carried it over faithfully", then criticised it |
+  | 2: Drew's words | Control: "builds", "enables"; draft: "increases", "enables" | Treated them as the researcher's: "You need to decide which verb is true in your data"; "tell me what 'builds' and 'enables' mean in your cases" (the reported bug) | "The arrow labels are Drew's, not yours. 'Increases' and 'enables' appear nowhere in what you wrote, and I don't think they hold up… Ask Drew for labels once you know what each arrow does" |
+
+  In both draft runs Thea still disagreed with the label, as the decision wants.
+- **Not checked:** one run of each case per version; box names and arrow types chosen by
+  Drew; a researcher who later adopts Drew's word as their own.
+- **Main page after this change:** `index.html`, 652341 bytes, SHA-256
+  `4896e3a51ec0fd861aa7f36d17d4a9c293b6974c582e3bad461402c7274e780c` (with the Oct 16 upload-field note from `main`).
+- **Approval:** the decision is the authors'; the wording is ours. Not to be merged until
+  an author, or a team member for them, approves it.
+- **Enforced by:** `THEA_SYSTEM` in `index.html` (Thea's instructions to Claude).
+
 ---
 
 ## Open items
@@ -267,6 +304,7 @@ Not tested: Drew, voice, SVG/PNG/PPTX export, PDF or PPTX upload (`PUBLISHING.md
 | Oct 15, 2026 | R4 | Clear messages when Claude access is missing; access requested again at send | TD-20 |
 | Oct 15, 2026 | R5 | Microphone and dictation removed; voice toggle is replies only, speaker icon | TD-19 |
 | Oct 15, 2026 | R6 | Nudge moved into the message box; transcript 38px taller | TD-12 |
+| Oct 15, 2026 | R8 | Thea attributes Drew's word choices to Drew; tested against the current prompt | TD-06 |
 | Oct 16, 2026 | R2 | Browser note also added to the upload field's hint | TD-10 |
 
 ## Considered, not built

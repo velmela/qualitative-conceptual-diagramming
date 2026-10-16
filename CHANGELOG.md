@@ -13,6 +13,18 @@ The try-another-browser note now also appears where the PDF is attached (tracker
 
 ## 2026-10-15
 
+Thea now says when a word on the figure is Drew's choice, not the researcher's (tracker
+item TD-06, `decision-rules-log.md` R8). Awaiting author approval of the wording.
+
+- **Thea reads Drew's actions**, where his arrow labels and box names are; she had been told
+  to ignore everything but his message.
+- **Before criticising a word on the figure she checks who introduced it.** If it is Drew's,
+  she says so, makes her case, and suggests asking Drew for a better one. The disagreement
+  stays.
+- Tested live against the current prompt: given labels Drew chose himself, the current prompt
+  asked the researcher to justify them; the new one said "The arrow labels are Drew's, not
+  yours."
+
 The transcript is taller (tracker item TD-12, `decision-rules-log.md` R6).
 
 - **The nudge moves into the message box.** "Keep thinking with Thea, or have Drew draw
