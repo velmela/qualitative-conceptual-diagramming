@@ -13,6 +13,17 @@ The try-another-browser note now also appears where the PDF is attached (tracker
 
 ## 2026-10-15
 
+Thea now makes her case once and then leaves the call to the researcher (tracker item
+TD-14, `decision-rules-log.md` R7). Awaiting author approval of the wording.
+
+- **New "Whose call it is" section in Thea's instructions**, written from an author's Sep 26
+  specification: the researcher decides when to stop; the second time Thea presses a point
+  she says so once and defers; she still helps fully; stopping cues end the push.
+- **One line added to her Voice section:** holding a position means saying it once, clearly.
+- Tested live against the current prompt, two runs each: the current prompt re-argued after
+  every pushback and reopened the point after "that's settled"; the new one deferred at the
+  first pushback and gave the requested label straight away.
+
 The transcript is taller (tracker item TD-12, `decision-rules-log.md` R6).
 
 - **The nudge moves into the message box.** "Keep thinking with Thea, or have Drew draw

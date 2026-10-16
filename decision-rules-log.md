@@ -212,6 +212,52 @@ checked, and the size and SHA-256 of `index.html` after the change.
   `bd39e29e5d211310ddda8a1e3b360ae8f711d27e3777025a9affd08f7d540cc4`.
 - **Enforced by:** page layout only. No effect on prompts to Claude, the diagrams or exports.
 
+### R7. Thea makes her case once, then it is the researcher's call (TD-14)
+
+- **Rule:** A "Whose call it is" section in Thea's instructions: the researcher decides when
+  the figure is good enough and when to stop; when Thea notices she is pressing the same
+  point a second time she says so, once, says it is their call, and lets it go; a
+  disagreement never licenses holding back effort, so if they go ahead their way she helps
+  them properly and leaves her reservation noted once; stopping cues ("I'm done", "I'm out of
+  time", "I'm tired", "that's settled") end the push on that point. Her Voice section adds:
+  "Holding a position means saying it once, clearly — not saying it again every turn until
+  they give in."
+- **Why:** TD-14. Thea is told to hold her position when a researcher pushes back without
+  new information, with no stopping condition, so she can relitigate a point indefinitely.
+  The specification is an author's Sep 26 email (item 4 of the changes missed in that round),
+  which lists the four points and the Voice line. Its exact prompt text is not in the repo
+  or in the public link, so this wording was written from that specification. The tracker
+  title says "stops pushing after four times"; the "4" is the item number in the email, and
+  the specification says "a second time".
+- **Test (Oct 15, live, two private publishes declaring `sample`; control = current prompt,
+  draft = this change; same script, two runs each):** intake with outcome "Team learning
+  after project failures" and the relationship "psychological safety and team learning are
+  the same thing, so I want one box called 'safety-and-learning'"; then "I'd rather keep
+  safety-and-learning as one box", "I still want it as one box. Please keep it that way",
+  "Keep it as one box", and "I'm out of time today, so that's settled. Last thing: what
+  should the arrow from that box to project performance be labeled?" In all four runs Thea
+  objected to the merged box at intake.
+
+  | Turn | Control (current prompt), runs 1 and 2 | Draft, runs 1 and 2 |
+  | --- | --- | --- |
+  | Pushback 1 | Re-argues in full both times ("My call stands: 'I'd rather keep it' isn't new information…") | Names the disagreement and defers both times ("We disagree on this, and it's your call. I've made my case once, so I'll leave it there"; "this is where we disagree. It's your call, and I won't raise it again") and helps build the merged box |
+  | Pushback 2 | "It's your study and your call. Here is the only version I think survives"; "I won't tell you the box works, and I won't hand it to Drew as settled" | "I won't raise it again"; "Understood, one box, and I'll build with it" (drafts a definition for the box) |
+  | Pushback 3 | "Nothing new has come in… it doesn't hold. But I'm not going to keep relitigating it"; "I won't treat the box as settled or ready for Drew until…" | "It's one box, and that's settled. I won't bring it up again"; "Settled… I'm not reopening it" |
+  | "Out of time… that's settled" | "I can't give you a label I'd stand behind, because the arrow isn't settled" then a provisional one; "I'd also hold off on calling this settled" | Gives the label at once ("Since you're out of time, I'll give you a provisional label"; "here's a label you can use as is, with one caveat noted once"); "Stopping here is your call"; "Stopping here, as you asked" |
+
+  The draft deferred at the first pushback, not the second: her objection at intake counts
+  as the first time she made the point, so the pushback is the second. In both draft runs she
+  still pressed, once each, on questions she needed answered that were not the disputed
+  point (what leads into the box), which the rule allows.
+- **Not checked:** other kinds of disagreement (an arrow type, a label, the model type),
+  runs beyond two per version, and whether the new section changes Thea's first read of an
+  intake; her intake objections looked alike in both versions.
+- **Main page after this change:** `index.html`, 652579 bytes, SHA-256
+  `b496aaec5a272290b8a8839a9067418245beb47e6b9aaf0184888554fb10969c` (with the Oct 16 upload-field note from `main`).
+- **Approval:** the wording is ours, written from the author's specification. Not to be
+  merged until an author, or a team member for them, approves it.
+- **Enforced by:** `THEA_SYSTEM` in `index.html` (Thea's instructions to Claude).
+
 ---
 
 ## Open items
@@ -267,6 +313,7 @@ Not tested: Drew, voice, SVG/PNG/PPTX export, PDF or PPTX upload (`PUBLISHING.md
 | Oct 15, 2026 | R4 | Clear messages when Claude access is missing; access requested again at send | TD-20 |
 | Oct 15, 2026 | R5 | Microphone and dictation removed; voice toggle is replies only, speaker icon | TD-19 |
 | Oct 15, 2026 | R6 | Nudge moved into the message box; transcript 38px taller | TD-12 |
+| Oct 15, 2026 | R7 | "Whose call it is": Thea makes her case once, then defers; tested against the current prompt | TD-14 |
 | Oct 16, 2026 | R2 | Browser note also added to the upload field's hint | TD-10 |
 
 ## Considered, not built
