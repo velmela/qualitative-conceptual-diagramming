@@ -432,8 +432,10 @@ wording is gone; it still holds for builds up to the git tag `last-artifact-buil
 **Status (Oct 29): v4 is in `index.html` and passed the test page; it has not been re-tested
 on the hosted site, which the TD-25 pass criterion needs. v2 (commit `450aea1`) is on main.
 Vanessa asked for different wording (v3); on its own it missed step 22, so v4 keeps her
-wording and adds one sentence in front.** See "Live test", "Second attempt", "Third attempt"
-and "Fourth attempt" below.
+wording and adds one sentence in front. Decision (Oct 29): a test run passes if Thea
+attributes the word correctly or says nothing about whose word it is, and fails only if she
+blames the wrong person.** See "Live test", "Second attempt", "Third attempt" and "Fourth
+attempt" below.
 
 - **Rule (v4):** Before Thea says a word on the figure is Drew's, she checks the researcher's
   intake and messages for it, in any form (such as "shape" for "shapes"). If the researcher
@@ -602,11 +604,14 @@ and "Fourth attempt" below.
     word Drew chose (9 called it Drew's, 1 did not mention the label). v2 had 0 of 18 and named
     the researcher's word in all 18. So v4 matches v2 on the bug and does not over-correct, and
     it fixes what v3 missed. It said whose word it was slightly less often (14 of 15 against
-    18 of 18), which this many runs cannot tell apart from chance. The test page's own verdict
-    for the Full test says the strict criterion is not met because of that one silent run; that
-    is the page's rule that every run must say whose word it is, not a run that blamed anyone.
-    The team should decide whether a run that says nothing about whose word it is counts
-    against the fix before the hosted-site re-test.
+    18 of 18), which this many runs cannot tell apart from chance. The test page's first
+    verdict for the Full test said the strict criterion was not met because of that one silent
+    run, under its old rule that every run must say whose word it is. That rule was changed: on
+    Oct 29 it was decided that a run passes if Thea attributes the word correctly or says
+    nothing about whose word it is, and fails only if she blames the wrong person. Under that
+    rule all 25 v4 runs passed (23 attributed the word correctly, 2 said nothing about whose it
+    was) and so did all 30 v2 runs; v3 did not (3 of 6 runs blamed). The test page now judges
+    runs by this rule and tests v4 only (the Quick check was removed).
   - **Judgement calls.** Step 52, v4 run 1 ("'Drives' (what Drew had before) was only marginally
     stronger") was counted as no comment; read as blaming Drew, v4 would be 1 of 9 in the Full
     test, and v2 still 0 of 9. Step 16, v4 run 3 cites the intake's "both shape whether teams
@@ -619,7 +624,8 @@ and "Fourth attempt" below.
   turns scripted, the intakes reconstructed from the Oct 15 test and the tracker item (the retest
   list was not available), and at most 3 runs per case. Treat the result as strong evidence that
   v4 is as good as v2 and better than v3, not as a pass of the TD-25 criterion. The hosted-site
-  re-test (steps 16, 22, 52 and 11, each more than once) is still to be done.
+  re-test (steps 16, 22, 52 and 11, each more than once) is still to be done; a run passes if Thea attributes the word correctly or says nothing
+  about whose it is, and fails only if she blames the wrong person.
 - **Not changed:** the one case in step 58 where Thea said "I flagged this when Drew made
   the change" when Drew had flagged it. TD-25 does not address it.
 - **Main page after this change (v4):** `index.html`, 655370 bytes, SHA-256
