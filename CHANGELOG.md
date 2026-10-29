@@ -8,12 +8,17 @@ Thea now checks the researcher's own words before saying an arrow label is Drew'
 item TD-25, `decision-rules-log.md` R13). The Oct 28 retest found her telling researchers
 that a verb from their own relationship, which Drew had reused as a label, was Drew's
 placeholder. A short addition to her instructions tells her to check the researcher's own words
-first; Drew and the code are unchanged. The first wording fixed steps 16 and 52 but not step 22
-in a live test on Oct 29 (through the artifact runtime, not the hosted site). A reworded version,
-which also covers a word the researcher used for only some of the arrows, is in this change. In a
-second live test on Oct 29 it passed in all 9 researcher's-word runs (the current prompt failed 7
-of 9) and did not blame the researcher for words Drew chose. It still needs a re-test on the
-hosted site before it is merged (`decision-rules-log.md` R13).
+first; Drew and the code are unchanged.
+
+The first wording failed step 22 in a live test on Oct 29. A second wording (v2) passed (0 of 9
+runs blamed Drew for the researcher's word, against 7 of 9 with no rule) and was committed.
+Vanessa asked for different wording; her version on its own (v3) missed step 22 in a Quick check
+(Thea said Drew chose the word in 3 of 6 runs). This change replaces v2 with Vanessa's wording
+plus one sentence in front (v4): check the researcher's intake and messages for the word first,
+in any form. In the live tests v4 matched v2 (0 of 9 runs said Drew chose the researcher's word
+in a side-by-side test, 0 of 15 over both tests) and did not blame the researcher for words Drew
+chose himself. None of the tests ran on the hosted site, which TD-25 still needs
+(`decision-rules-log.md` R13).
 
 ## 2026-10-27
 
