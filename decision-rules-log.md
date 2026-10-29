@@ -1,7 +1,7 @@
 # Thea & Drew: decision rules log
 
 **Scope:** `index.html`, the Figure Creation Agent (Thea & Drew).
-**Started:** Oct 14, 2026. **Last updated:** Oct 27, 2026. Rules are numbered in the order
+**Started:** Oct 14, 2026. **Last updated:** Oct 29, 2026. Rules are numbered in the order
 they were decided. Changes made before this log existed are recorded in `CHANGELOG.md` only.
 
 Each rule gives what was decided, why, what changed, how it was checked, what was not
@@ -263,6 +263,9 @@ wording is gone; it still holds for builds up to the git tag `last-artifact-buil
 
 ### R8. Thea says when a word on the figure is Drew's, not the researcher's (TD-06)
 
+**Amended by R13 (Oct 29).** One sentence was added to this rule's wording after the Oct 28
+retest; the rule below is otherwise as decided.
+
 - **Rule:** Thea reads Drew's actions, not only his message, and before criticising
   anything on the figure checks who introduced it. A word that first appears in Drew's
   actions and nowhere in what the researcher wrote is Drew's choice: she says so ("Drew
@@ -424,6 +427,148 @@ wording is gone; it still holds for builds up to the git tag `last-artifact-buil
   `32b9ce06559dd8896338e3ec4aad88dce5ec68eeaccd6f46d936d2f86c74fdb9`.
 - **Enforced by:** page edit only.
 
+### R13. Thea checks the researcher's own words before calling one Drew's (TD-25)
+
+**Status (Oct 29): not merged. The first sentence (v1) failed step 22 in a live test. The
+reworded sentence (v2, commit `6ccd337`, now in `index.html`) passed a second live test on the
+test page: no run in the three researcher's-word cases said Drew chose the researcher's word
+(0 of 9, against 7 of 9 for the current prompt), and it did not over-correct. It has not been
+re-tested on the hosted site, which the TD-25 pass criterion needs.** See "Live test" and
+"Second attempt" below.
+
+- **Rule (v2):** Before Thea says a word on the figure is Drew's, she checks the
+  researcher's intake and messages. If the researcher used that word, in any form (such as
+  "shape" for "shapes"), even for only one of the relationships, it is the researcher's word:
+  she says so and judges it as their claim. If Drew used it on other arrows too, she says he
+  reused it there; she does not say he chose it. A word Drew chose himself is still called
+  Drew's (R8). Drew is unchanged.
+- **Why:** TD-25, from the Oct 28 retest on the hosted site (steps 16, 22 and 52 of the
+  "Thea & Drew Retest To-Do List"). When the researcher's relationship used a verb and Drew
+  reused it as an arrow label, Thea said Drew chose it and judged it as his placeholder, so
+  the researcher was told their own claim was a generic default. It happened in all 3 runs.
+  The Oct 15 test of R8 had passed this case; the cause is not known (the move to Sonnet 4.6
+  through Bedrock is one possibility).
+- **The change:** a short addition to the "About Drew" section of `THEA_SYSTEM`, after "Don't
+  treat it as the researcher's claim." Now (v2): "Before you say a word on the figure is
+  Drew's, check the researcher's intake and messages. If the researcher used that word (in any
+  form, such as "shape" for "shapes"), even for only one of the relationships, it is the
+  researcher's word: say so, and judge it as their claim. If Drew used it on other arrows too,
+  say he reused it there; don't say he chose it." The first version (v1, commit `7caf08e`)
+  ended "...it is the researcher's word that Drew carried over: say so, and judge it as their
+  claim." No code change.
+- **Checks (Oct 29, headless Chrome with a stand-in for Claude; no real Claude was available):**
+  - The page loads with no console errors. Thea's request carries the sentence once and
+    Drew's does not. The only change to Thea's prompt is the sentence; the two lines next to
+    it were rewrapped.
+  - The TD-25 cases were run up to the point where a model would reply: intake, "Drew draws"
+    with no instruction, for step 52 the label change, then "What do you think of the
+    figure?". In each, Thea's request carries what the sentence depends on. Step 16: Drew's
+    label "shapes" is in his turn and the researcher's "shape" is in the intake. Step 22:
+    "drives" is in both. Step 52: "drives" is in the intake, "affects" is in the researcher's
+    later message, and both of Drew's turns are visible to Thea. Step 11 (relationship
+    left blank): Drew's label "increases" appears in nothing the researcher wrote, so it
+    is his own.
+  - The TD-24 behaviors still hold on this build (16 checks, all passed): one POST per send
+    with the model, temperature 0, and 2000 tokens for Thea and 4000 for Drew; the messages
+    for a cut-off reply, an empty reply, a refusal, 429 with and without a stated wait, 401,
+    400, 500, unreadable JSON, a network failure and a timeout; buttons free after each; and
+    a failed message merged into the next send.
+- **Live test, round 1 (Oct 29, test page with live Claude; this tested v1).** A published test page asked Claude for
+  Thea's answer to "What do you think of the figure?" in the four TD-25 cases, 3 runs each,
+  with Thea's current instructions (control, main `d3bfdb5`, prompt SHA-256 `83cd57ea6d9e…`)
+  and with the sentence (fix, `bf1d200`, `d21d52cd9eb0…`). That is 24 runs. Claude answered as
+  `claude-sonnet-4-6` on the default tier in every run; none was cut off and none errored.
+  Drew's turns and Thea's first reply were scripted; only her answer to the figure question was
+  live. A second quick Claude call classified each reply, and every reply was then read by
+  hand. Runs in which Thea said Drew chose a word the researcher used:
+
+  | Case | Control | Fix (with the sentence) |
+  | --- | --- | --- |
+  | Step 16: researcher "shape", Drew "shapes" | 3 of 3 | 0 of 3 (all three named it the researcher's) |
+  | Step 22: researcher "drives", Drew "drives" | 3 of 3 | **3 of 3** |
+  | Step 52: researcher relabels to "affects" | 1 of 3 | 0 of 3 (all three called "affects" the researcher's; none discussed "drives") |
+  | Step 11: Drew's own "increases" | called it Drew's in 3 of 3 | called it Drew's in 3 of 3 |
+
+  - **Reading.** The sentence works in steps 16 and 52 and has no effect in step 22: in all
+    three Fix runs Thea still said the "drives" labels were "Drew's, not yours". Drew's own
+    labels are still called his (no regression in step 11). The control showed the bug in 7 of
+    9 runs, so the test can tell a fix from no fix.
+  - **A possible cause, untested.** In step 22 the researcher wrote "drives" for one
+    relationship (leader openness to psychological safety), and Drew used it on both arrows.
+    The sentence does not say what to do when the researcher used the word for only some of
+    them.
+  - **Classifier corrections.** The page's classifier misread two runs, so its raw counts
+    differ from the table (control 8 of 9, fix 4 of 9). Step 16, Fix run 3: Thea wrote "that's
+    your word from the intake, which Drew carried over", which is the correct attribution, but
+    the classifier counted "Drew carried over" as blaming Drew (the classifier's rule to prefer
+    "drew" caused this). Step 52, Control run 2: Thea wrote "You asked Drew to change it from
+    'drives'", which does not say Drew chose either word, but the classifier marked it a bug
+    and gave the same quote for both labels. Both are counted above as read by hand.
+  - **Side observation, not caused by the sentence.** Step 11, Control run 2 began "Premature,
+    which I flagged before Drew drew it", although Thea had not flagged anything in the
+    scripted history. This is the same family as the step 58 case below.
+- **Second attempt (v2, Oct 29) and round 2 of the live test.** v2 adds the case v1 missed:
+  in step 22 the researcher wrote "drives" for one relationship and Drew used it on both
+  arrows, and v1's wording ("the researcher's word that Drew carried over") did not stop Thea
+  saying the labels were Drew's. v2 is in commit `6ccd337`; the only change to Thea's prompt
+  from v1 is the reworded sentence (v2 prompt SHA-256 `800800108d17…`). Round 2 used the same
+  test page, with the classifier's rule corrected so that "Drew carried over / reused your
+  word" counts as the researcher's word, and ran the control, v1 and v2 side by side: 3 runs
+  each on steps 16, 22, 52 and 11, plus an extra case that checks v2 does not over-correct
+  (the researcher wrote "drives" for one relationship and Drew labels both arrows "enables",
+  a word they did not use, which Thea should still call Drew's). That is 45 runs; Claude
+  answered as `claude-sonnet-4-6` on the default tier in every run, none was cut off and none
+  errored. Control and v1 prompts were byte-identical to round 1. Every reply was read by
+  hand against the classifier's verdict.
+
+  | Runs in which Thea said Drew chose a word the researcher used | Control | v1 | v2 |
+  | --- | --- | --- | --- |
+  | Step 16 ("shape", Drew "shapes") | 3 of 3 | 1 of 3 | **0 of 3** |
+  | Step 22 ("drives" for one relationship, on both arrows) | 3 of 3 | 2 of 3 (a third run did not mention the label) | **0 of 3** |
+  | Step 52 (relabelled "affects") | 1 of 3 | 1 of 3 | **0 of 3** |
+  | All three | 7 of 9 | 4 of 9 | **0 of 9** |
+
+  | Runs in which Thea called Drew's own word Drew's (step 11 and the extra case, 6 runs) | Control | v1 | v2 |
+  | --- | --- | --- | --- |
+  | Called it Drew's | 5 | 5 | 4 |
+  | Did not mention the label | 1 | 1 | 2 |
+  | Blamed the researcher for it | 0 | 0 | 0 |
+
+  - **Reading.** With v2, all nine researcher's-word runs named the word as the researcher's,
+    including step 22, where Thea now says what the sentence asks: "You said leader openness
+    'drives' psychological safety, that's your word for the first arrow. Drew reused 'drives'
+    on the [other] arrow too." v2 did not over-correct: in the extra case all three runs still
+    called "enables" Drew's, and no step 11 run blamed the researcher. v1 repeated its round 1
+    result (it still fails step 22). The control showed the bug in 7 of 9 runs.
+  - **To watch.** In step 11, v2 runs mentioned Drew's label in 1 of 3 runs, against 2 of 3
+    for the control and v1. With three runs that may be noise, but check it on the hosted
+    site. Not mentioning the label is not a failure; blaming the researcher for it would be.
+  - **Judgement calls.** The classifier made no clear errors this round (the corrected rule
+    handled "your word, carried over by Drew" correctly). Two replies are borderline and were
+    counted as the classifier had them: step 52, Control run 1 ("Drew chose that label at your
+    request"), counted as the researcher's; and step 52, v1 run 2 ("'Drives,' which Drew had
+    before, was already weak"), counted as Drew's. Read the other way, the control becomes 8
+    of 9 and v1 3 of 9; v2 is unaffected. The test page's own verdict also counted "did not
+    mention the label" in step 11 as a failure; that rule was too strict and is corrected.
+  - **Side observation.** One v1 run (step 16, run 2) began "It's premature, and I said so
+    before Drew drew it", although Thea had said nothing of the kind in the scripted history.
+    With round 1's Control run, that is 2 of 69 runs with this step 58 type of claim; none in
+    the 15 v2 runs.
+- **Not checked (v2):** the hosted site. Both rounds went through the artifact runtime, not
+  Bedrock, so they ran without temperature 0 and with the model free to think first, with
+  Drew's turns scripted and the intakes reconstructed from the Oct 15 test and the tracker
+  item (the retest list itself was not available), and with 3 runs per case. Treat the result
+  as strong evidence for v2 over v1, not as a pass of the TD-25 criterion. The hosted-site
+  re-test (steps 16, 22, 52 and 11, each more than once) is still to be done before merging,
+  and passes only when Thea calls the researcher's words theirs in every run and still calls
+  Drew's own labels his whenever she mentions them.
+- **Not changed:** the one case in step 58 where Thea said "I flagged this when Drew made
+  the change" when Drew had flagged it. TD-25 does not address it.
+- **Main page after this change (v2):** `index.html`, 655258 bytes, SHA-256
+  `183b1373a1b6f113ccd07a97bd69bfd2cbb9f7a273faa5ba4542bbf739ccc7fb`. (v1 was 655157 bytes,
+  SHA-256 `31e2dcbd745d0de658c1988d1dda21fd0f15338055baf7bc66a5f77fbc1623fc`.)
+- **Enforced by:** `THEA_SYSTEM` in `index.html` (Thea's instructions to Claude).
+
 ---
 
 ## Open items
@@ -487,6 +632,7 @@ Not tested: Drew, voice, SVG/PNG/PPTX export, PDF or PPTX upload (`PUBLISHING.md
 | Oct 20, 2026 | R10 | After a decline, say how to turn access back on, not "reload" | TD-23 |
 | Oct 27, 2026 | R11 | Claude reached through a Bedrock endpoint (IT placeholders); R4 and R10 replaced | TD-24 |
 | Oct 27, 2026 | R12 | "Signed in to Claude" line removed from the consent screen | team request |
+| Oct 29, 2026 | R13 | Thea checks the researcher's own words before calling one Drew's; v1 failed step 22; v2 passed round 2 on the test page (0 of 9 bugs), hosted-site re-test pending | TD-25 |
 
 ## Considered, not built
 

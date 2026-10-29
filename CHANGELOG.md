@@ -2,6 +2,19 @@
 
 Changes to `index.html` (the Figure Creation Agent — Thea & Drew).
 
+## 2026-10-29
+
+Thea now checks the researcher's own words before saying an arrow label is Drew's (tracker
+item TD-25, `decision-rules-log.md` R13). The Oct 28 retest found her telling researchers
+that a verb from their own relationship, which Drew had reused as a label, was Drew's
+placeholder. A short addition to her instructions tells her to check the researcher's own words
+first; Drew and the code are unchanged. The first wording fixed steps 16 and 52 but not step 22
+in a live test on Oct 29 (through the artifact runtime, not the hosted site). A reworded version,
+which also covers a word the researcher used for only some of the arrows, is in this change. In a
+second live test on Oct 29 it passed in all 9 researcher's-word runs (the current prompt failed 7
+of 9) and did not blame the researcher for words Drew chose. It still needs a re-test on the
+hosted site before it is merged (`decision-rules-log.md` R13).
+
 ## 2026-10-27
 
 Thea and Drew now reach Claude through an Amazon Bedrock endpoint instead of the claude.ai
